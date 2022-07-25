@@ -59,13 +59,13 @@ jobs:
     - name: Push the Docker image latest tag
       if: ${{github.event_name != 'pull_request' && github.ref == 'refs/heads/main'}}
       run: docker push ${{env.imagename}}:latest
-    - name: Container image scan
-      if: ${{github.event_name != 'pull_request' && github.ref == 'refs/heads/main'}}
-      uses: Azure/container-scan@v0.1
-      with:
-        image-name: ${{env.imagename}}:${{env.tag}}
-        # username: ${{env.dockeruser}}
-        # password: ${{env.dockerpwd}}
+    # - name: Container image scan
+    #   if: ${{github.event_name != 'pull_request' && github.ref == 'refs/heads/main'}}
+    #   uses: Azure/container-scan@v0.1
+    #   with:
+    #     image-name: ${{env.imagename}}:${{env.tag}}
+    #     # username: ${{env.dockeruser}}
+    #     # password: ${{env.dockerpwd}}
 
 #   terraform:
 #     needs: build_test_scan_push
