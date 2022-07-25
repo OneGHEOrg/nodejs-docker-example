@@ -46,12 +46,6 @@ jobs:
         path: code-coverage-results.md
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag ${{env.imagename}}:${{env.tag}}
-    - name: Container image scan
-      uses: Azure/container-scan@v0.1
-      with:
-        image-name: ${{env.imagename}}:${{env.tag}}
-        # username: ${{env.dockeruser}}
-        # password: ${{env.dockerpwd}}
     # Tag and push image if main branch run
     - name: Add latest tag
       if: ${{github.event_name != 'pull_request' && github.ref == 'refs/heads/main'}}
@@ -65,6 +59,13 @@ jobs:
     - name: Push the Docker image latest tag
       if: ${{github.event_name != 'pull_request' && github.ref == 'refs/heads/main'}}
       run: docker push ${{env.imagename}}:latest
+    - name: Container image scan
+      if: ${{github.event_name != 'pull_request' && github.ref == 'refs/heads/main'}}
+      uses: Azure/container-scan@v0.1
+      with:
+        image-name: ${{env.imagename}}:${{env.tag}}
+        # username: ${{env.dockeruser}}
+        # password: ${{env.dockerpwd}}
 
 #   terraform:
 #     needs: build_test_scan_push
