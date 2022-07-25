@@ -13,9 +13,9 @@ env:
   dockeruser: whoha4242
   # NOTE: You must include a secret in your repo's settings to contain your docker user's password or change docker auth methods
   dockerpwd: ${{secrets.dockerpassword}}
-  azure-rg: csw-liatrio-exercise-rg
-  aks-cluster: csw-liatrio-exercise-aks1
-  azure-tenant: 7500411e-6146-4c36-8612-6f9390df3440
+  # azure-rg: csw-liatrio-exercise-rg
+  # aks-cluster: csw-liatrio-exercise-aks1
+  # azure-tenant: 7500411e-6146-4c36-8612-6f9390df3440
 
 jobs:
 
@@ -24,12 +24,12 @@ jobs:
     runs-on: ['self-hosted','ec2']
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Run Unit Tests
       run: npm install && npm test
     - name: Generate Code Coverage
       run: |
-        npm install -g nyc mocha
+        sudo npm install -g nyc mocha
         nyc --reporter cobertura --reporter html mocha test
     - name: Code Coverage Summary
       uses: irongut/CodeCoverageSummary@v1.2.0
